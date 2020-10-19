@@ -665,7 +665,7 @@ KBUILD_CFLAGS   += -mcpu=cortex-a53 -mtune=cortex-a53
 endif
 
 ifeq ($(cc-name),gcc)
-KBUILD_CFLAGS   += -mcpu=cortex-a73.cortex-a53 -mtune=cortex-a73.cortex-a53
+KBUILD_CFLAGS   += -mcpu=cortex-a53 -mtune=cortex-a53
 endif
 
 >>>>>>> bad59b03782e... Makefile: optimization for SDM660 CPU (kyro 260)
