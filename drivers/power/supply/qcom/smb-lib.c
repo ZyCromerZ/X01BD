@@ -3782,8 +3782,8 @@ void jeita_rule(void)
 
 	case JEITA_STATE_RANGE_0_to_100:
 		charging_enable = EN_BAT_CHG_EN_COMMAND_TRUE;
-		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P350;
-		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_2000MA;
+		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P492;
+		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_4000MA;
 
 		rc = SW_recharge(smbchg_dev);
 		if (rc < 0)
@@ -3797,8 +3797,8 @@ void jeita_rule(void)
 	case JEITA_STATE_RANGE_100_to_500:
 #endif
 		charging_enable = EN_BAT_CHG_EN_COMMAND_TRUE;
-		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P350;
-		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_3000MA;
+		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P492;
+		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_4000MA;
 
 		rc = SW_recharge(smbchg_dev);
 		if (rc < 0)
@@ -3812,8 +3812,8 @@ void jeita_rule(void)
 	case JEITA_STATE_RANGE_500_to_600:
 #endif
 		charging_enable = EN_BAT_CHG_EN_COMMAND_TRUE;
-		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P095;
-		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_2500MA;
+		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P492;
+		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_4000MA;
 		break;
 
 #ifdef ASUS_CUSTOM_JEITA_SET_MODIFY
@@ -3825,11 +3825,6 @@ void jeita_rule(void)
 		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P004;
 		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_1500MA;
 		break;
-	}
-
-	if ( charging_enable == EN_BAT_CHG_EN_COMMAND_TRUE ){
-		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P492;
-		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_4000MA;
 	}
 
 	if (smartchg_stop_flag) {
