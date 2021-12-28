@@ -28,6 +28,7 @@
 #include <linux/module.h>
 
 int force_fast_charge = 1;
+int force_enable_charge = 0;
 
 static int __init get_fastcharge_opt(char *ffc)
 {
@@ -53,8 +54,28 @@ static ssize_t force_fast_charge_show(struct kobject *kobj, struct kobj_attribut
 static ssize_t force_fast_charge_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
 {
 	sscanf(buf, "%d ", &force_fast_charge);
-	if (force_fast_charge < 0 || force_fast_charge > 1)
+	if (force_fast_charge < 0)
 		force_fast_charge = 0;
+	else if (force_fast_charge > 1)
+		force_fast_charge = 1;
+
+	return count;
+}
+
+static ssize_t force_enable_charge_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+{
+	size_t count = 0;
+	count += sprintf(buf, "%d\n", force_enable_charge);
+	return count;
+}
+
+static ssize_t force_enable_charge_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
+{
+	sscanf(buf, "%d ", &force_enable_charge);
+	if (force_enable_charge < 0)
+		force_enable_charge = 0;
+	else if (force_enable_charge > 1)
+		force_enable_charge = 1;
 
 	return count;
 }
@@ -62,8 +83,12 @@ static ssize_t force_fast_charge_store(struct kobject *kobj, struct kobj_attribu
 static struct kobj_attribute force_fast_charge_attribute =
 __ATTR(force_fast_charge, 0664, force_fast_charge_show, force_fast_charge_store);
 
+static struct kobj_attribute force_enable_charge_attribute =
+__ATTR(force_enable_charge, 0664, force_enable_charge_show, force_enable_charge_store);
+
 static struct attribute *force_fast_charge_attrs[] = {
 &force_fast_charge_attribute.attr,
+&force_enable_charge_attribute.attr,
 NULL,
 };
 
