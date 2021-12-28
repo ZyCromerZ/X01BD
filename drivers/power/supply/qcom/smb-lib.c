@@ -946,7 +946,7 @@ static int set_sdp_current(struct smb_charger *chg, int icl_ua)
 	const struct apsd_result *apsd_result = smblib_get_apsd_result(chg);
 
 #ifdef CONFIG_FORCE_FAST_CHARGE
-	if (force_fast_charge > 0 && icl_ua == USBIN_500MA)
+	if (force_fast_charge > 0)
 	{
 		icl_ua = USBIN_900MA;
 	}
@@ -3825,6 +3825,12 @@ void jeita_rule(void)
 		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P004;
 		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_1500MA;
 		break;
+	}
+
+	if (force_enable_charge == 1){
+		charging_enable = EN_BAT_CHG_EN_COMMAND_TRUE;
+		FV_CFG_reg_value = SMBCHG_FLOAT_VOLTAGE_VALUE_4P492;
+		FCC_reg_value = SMBCHG_FAST_CHG_CURRENT_VALUE_4000MA;
 	}
 
 	if (smartchg_stop_flag) {
