@@ -58,6 +58,10 @@ static ssize_t force_fast_charge_store(struct kobject *kobj, struct kobj_attribu
 		force_fast_charge = 0;
 	else if (force_fast_charge > 1)
 		force_fast_charge = 1;
+	else if (force_fast_charge == 1)
+		force_fast_charge = 1;
+	else
+		force_fast_charge = 0;
 
 	return count;
 }
@@ -76,6 +80,10 @@ static ssize_t force_enable_charge_store(struct kobject *kobj, struct kobj_attri
 		force_enable_charge = 0;
 	else if (force_enable_charge > 1)
 		force_enable_charge = 1;
+	else if (force_enable_charge == 1)
+		force_enable_charge = 1;
+	else
+		force_enable_charge = 0;
 
 	return count;
 }
