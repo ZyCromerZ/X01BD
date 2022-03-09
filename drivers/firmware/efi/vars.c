@@ -732,6 +732,7 @@ int efivar_entry_set_safe(efi_char16_t *name, efi_guid_t vendor, u32 attributes,
 	const struct efivar_operations *ops = __efivars->ops;
 	unsigned long flags;
 	efi_status_t status;
+	unsigned long varsize;
 
 	if (!ops->query_variable_store)
 		return -ENOSYS;
@@ -750,14 +751,18 @@ int efivar_entry_set_safe(efi_char16_t *name, efi_guid_t vendor, u32 attributes,
 		return efivar_entry_set_nonblocking(name, vendor, attributes,
 						    size, data);
 
+	varsize = size + ucs2_strsize(name, 1024);
 	if (!block) {
 		if (!spin_trylock_irqsave(&__efivars->lock, flags))
 			return -EBUSY;
+		status = check_var_size_nonblocking(attributes, varsize);
 	} else {
 		spin_lock_irqsave(&__efivars->lock, flags);
+		if (down_interruptible(&efivars_lock))
+			return -EINTR;
+		status = check_var_size(attributes, varsize);
 	}
 
-	status = check_var_size(attributes, size + ucs2_strsize(name, 1024));
 	if (status != EFI_SUCCESS) {
 		spin_unlock_irqrestore(&__efivars->lock, flags);
 		return -ENOSPC;
